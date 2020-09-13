@@ -1,11 +1,11 @@
 let db;
 // create a new db request for a "budget" database.
-const request = window.indexedDB.open("budget", 1);
+const request = window.indexedDB.open("budget");
 
 request.onupgradeneeded = function (event) {
   // create object store called "pending" and set autoIncrement to true
-  const db = event.target.result;
-  db.createObjectStore('pending', { autoIncrement = true });
+  db = event.target.result;
+  db.createObjectStore('pending', { autoIncrement: true });
 };
 
 request.onsuccess = function (event) {
@@ -34,18 +34,11 @@ function checkDatabase() {
   // open a transaction on your pending db
   
     const transaction = db.transaction(["pending"], "readwrite");
+     // access pending object store
     const pendingStore = transaction.objectStore("pending");
+    // get all records from store and set to a variable
+    const getAll = pendingStore.getAll(); 
     
-    const getAll = pendingStore = transaction.objectStore("pending");
-  
-    const getRequest = pendingStore.getAll({});
-    getRequest.onsuccess = () => {
-      console.log(getRequest,result);
-    }
-
-  // access pending object store
-  // get all records from store and set to a variable
-
   getAll.onsuccess = function () {
     if (getAll.result.length > 0) {
       fetch('/api/transaction/bulk', {
