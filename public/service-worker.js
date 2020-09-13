@@ -47,7 +47,7 @@ self.addEventListener("activate", function(evt) {
 // fetch
 self.addEventListener("fetch", function(evt) {
   // cache all get requests 
-  if (evt.request.url.includes("/api/")) {
+  if (evt.request.url.includes("/api/") || evt.request.url.includes("/transaction")) {
     evt.respondWith(
       caches.open(DATA_CACHE_NAME).then((cache) => {
         return fetch(evt.request)
