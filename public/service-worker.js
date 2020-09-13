@@ -5,6 +5,7 @@ const FILES_TO_CACHE = [
   "/index.html",
   "/manifest.webmanifest",
   "/styles.css",
+  "/service-worker.js",
   "./icons/icon-192x192.png",
   "./icons/icon-512x512.png",
   "https://cdn.jsdelivr.net/npm/chart.js@2.8.0"
@@ -46,9 +47,9 @@ self.addEventListener("activate", function(evt) {
 // fetch
 self.addEventListener("fetch", function(evt) {
   // cache all get requests 
-  if (evt.request.url.includes("/api/") || evt.request.url.includes("/transaction")) {
+  if (evt.request.url.includes("/api/")) {
     evt.respondWith(
-      caches.open(DATA_CACHE_NAME).then(cache => {
+      caches.open(DATA_CACHE_NAME).then((cache) => {
         return fetch(evt.request)
           .then(response => {
             // If the response was good, clone it and store it in the cache.
